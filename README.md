@@ -18,6 +18,19 @@ And then execute:
 ```ruby
 ActiveAdmin.register Post do
   active_admin_paranoia
-  actions :all, :except => [:destroy]
+end
+```
+
+# Archiving (soft delete) vs Deleting (hard delete)
+
+The "Archive" button will call `#destroy` to soft delete the resource by setting the `deleted_at` column to the current time. 
+The "Delete" button will call `#really_destroy!` to hard delete the resource (by removing the records from the database).
+
+You can disable hard deletion by removing the `:destroy` action:
+
+```ruby
+ActiveAdmin.register Post do
+  active_admin_paranoia
+  actions :all, except: [:destroy]
 end
 ```

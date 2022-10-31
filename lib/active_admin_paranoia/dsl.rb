@@ -19,6 +19,13 @@ module ActiveAdminParanoia
         def find_resource
           resource_class.with_deleted.public_send(method_for_find, params[:id])
         end
+
+        # The "Delete" button should now really destroy the resource. (Click "Archive" to soft delete.)
+        # Remove the delete button with the following line:
+        #   actions :all, except: [:destroy]
+        def destroy_resource(object)
+          object.really_destroy!
+        end
       end
 
       batch_action :archive, confirm: proc{ I18n.t('active_admin_paranoia.batch_actions.archive_confirmation', plural_model: resource_class.to_s.downcase.pluralize) }, if: proc{ authorized?(ActiveAdminParanoia::Auth::ARCHIVE, resource_class) && params[:scope] != 'archived' } do |ids|
