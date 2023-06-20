@@ -69,8 +69,8 @@ module ActiveAdminParanoia
         end
       end
 
-      scope(I18n.t('active_admin_paranoia.non_archived'), default: true) { |scope| scope.unscope(:where => archived_at_column).where(archived_at_column => not_archived_value) }
-      scope(I18n.t('active_admin_paranoia.archived')) { |scope| scope.unscope(:where => archived_at_column).where.not(archived_at_column => not_archived_value) }
+      scope(I18n.t('active_admin_paranoia.non_archived'), default: true, show_count: false) { |scope| scope.unscope(:where => archived_at_column).where(archived_at_column => not_archived_value) }
+      scope(I18n.t('active_admin_paranoia.archived'), show_count: false) { |scope| scope.unscope(:where => archived_at_column).where.not(archived_at_column => not_archived_value) }
     end
   end
 end
