@@ -9,7 +9,7 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_archived', count: ids.count, model: resource_class.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          controller.redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(**options))
+          controller.redirect_back(**{ fallback_location: ActiveAdmin.application.root_to }.merge(options))
         else
           controller.redirect_to :back, options
         end
@@ -40,7 +40,7 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: ids.count, model: resource_class.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(**options))
+          redirect_back(**{ fallback_location: ActiveAdmin.application.root_to }.merge(options))
         else
           redirect_to :back, options
         end
@@ -63,7 +63,7 @@ module ActiveAdminParanoia
         options = { notice: I18n.t('active_admin_paranoia.batch_actions.succesfully_restored', count: 1, model: resource_class.model_name, plural_model: resource_class.to_s.downcase.pluralize) }
         # For more info, see here: https://github.com/rails/rails/pull/22506
         if Rails::VERSION::MAJOR >= 5
-          redirect_back({ fallback_location: ActiveAdmin.application.root_to }.merge(**options))
+          redirect_back(**{ fallback_location: ActiveAdmin.application.root_to }.merge(options))
         else
           redirect_to :back, options
         end
