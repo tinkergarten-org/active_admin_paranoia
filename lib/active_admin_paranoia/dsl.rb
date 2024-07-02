@@ -46,12 +46,16 @@ module ActiveAdminParanoia
         end
       end
 
-      action_item :archive, only: :show, if: proc { !resource.send(archived_at_column) } do
-        link_to(I18n.t('active_admin_paranoia.archive_model', model: resource_class.to_s.titleize), "#{resource_path(resource)}/archive", method: :put, data: { confirm: I18n.t('active_admin_paranoia.archive_confirmation') }) if authorized?(ActiveAdminParanoia::Auth::ARCHIVE, resource)
+      action_item :archive, only: :show do |resource|
+        unless resource.send(archived_at_column)
+          link_to(I18n.t('active_admin_paranoia.archive_model', model: resource_class.to_s.titleize), "#{resource_path(resource)}/archive", method: :put, data: { confirm: I18n.t('active_admin_paranoia.archive_confirmation') }) if authorized?(ActiveAdminParanoia::Auth::ARCHIVE, resource)
+        end
       end
 
-      action_item :restore, only: :show, if: proc { resource.send(archived_at_column) } do
-        link_to(I18n.t('active_admin_paranoia.restore_model', model: resource_class.to_s.titleize), "#{resource_path(resource)}/restore", method: :put, data: { confirm: I18n.t('active_admin_paranoia.restore_confirmation') }) if authorized?(ActiveAdminParanoia::Auth::RESTORE, resource)
+      action_item :restore, only: :show do
+        if resource.send(archived_at_column)
+          link_to(I18n.t('active_admin_paranoia.restore_model', model: resource_class.to_s.titleize), "#{resource_path(resource)}/restore", method: :put, data: { confirm: I18n.t('active_admin_paranoia.restore_confirmation') }) if authorized?(ActiveAdminParanoia::Auth::RESTORE, resource)
+        end
       end
 
       member_action :archive, method: :put, confirm: proc{ I18n.t('active_admin_paranoia.archive_confirmation') }, if: proc{ authorized?(ActiveAdminParanoia::Auth::ARCHIVE, resource_class) } do
